@@ -1,37 +1,12 @@
 import tensorflow as tf
 import numpy as np
 
-import collections
-import math
+from tensorflow.python.ops import array_ops, variable_scope as vs
 
-from tensorflow.python.framework import (
-    ops,
-    tensor_shape,
-)
+from tensorflow.python.ops.math_ops import sigmoid, tanh
 
-from tensorflow.python.ops import (
-    array_ops,
-    clip_ops,
-    embedding_ops,
-    init_ops,
-    math_ops,
-    nn_ops,
-    partitioned_variables,
-    variable_scope as vs,
-)
+from tensorflow.python.platform import tf_logging as logging
 
-from tensorflow.python.ops.math_ops import (
-    sigmoid,
-    tanh,
-)
-
-from tensorflow.python.platform import (
-    tf_logging as logging,
-)
-
-from tensorflow.python.util import (
-    nest,
-)
 
 # LN funcition
 def ln(inputs, epsilon=1e-5, scope=None):
@@ -54,9 +29,10 @@ def ln(inputs, epsilon=1e-5, scope=None):
 
     return LN
 
+
 # Modified from:
 # https://github.com/tensorflow/tensorflow/blob/master/tensorflow/python/ops/rnn_cell.py
-class GRUCell(tf.nn.rnn_cell.RNNCell):
+class GRUCell(tf.contrib.rnn.RNNCell):
     """Gated Recurrent Unit cell (cf. http://arxiv.org/abs/1406.1078)."""
 
     def __init__(self, num_units, input_size=None, activation=tanh):
