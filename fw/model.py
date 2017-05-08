@@ -88,8 +88,8 @@ class fast_weights_model(object):
                         tf.matmul(self.h_s, self.A))
 
                     # Apply layernorm
-                    mu = tf.reduce_mean(self.h_s, axis=2)  # each sample
-                    sigma = tf.sqrt(tf.reduce_mean(tf.square(self.h_s - mu), axis=2))
+                    mu = tf.reduce_mean(self.h_s, axis=0)  # each sample
+                    sigma = tf.sqrt(tf.reduce_mean(tf.square(self.h_s - mu), axis=0))
                     self.h_s = tf.div(tf.multiply(self.gain, (self.h_s - mu)), sigma) + self.bias
 
                     # Apply nonlinearity
